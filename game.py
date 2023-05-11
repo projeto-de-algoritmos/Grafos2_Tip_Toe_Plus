@@ -322,7 +322,7 @@ def main_menu():
         # Texto do rodape
 
         FOOTER_TEXT = font.render(
-            "Trabalho de Grafos 1 - @AntonioRangelC e @kessJhones", True, white)
+            "Trabalho de Grafos 2 - @AntonioRangelC e @kessJhones", True, white)
         FOOTER_RECT = FOOTER_TEXT.get_rect(center=(width/2, height*0.9))
 
         # Definir os botões
@@ -337,18 +337,24 @@ def main_menu():
         COMPUTER_PLAY_TEXT_RECT = COMPUTER_PLAY_TEXT.get_rect(
             center=COMPUTER_PLAY_BUTTON.center)
 
+        PLUS_BUTTON = pygame.Rect((width/3), (height/3) + (height * 0.30), 300, 50)
+        PLUS_TEXT = font.render("Tip Toe Plus", True, white)
+        PLUS_TEXT_RECT = PLUS_TEXT.get_rect(center=PLUS_BUTTON.center)
+        
         QUIT_BUTTON = pygame.Rect(
-            (width/3), (height/3) + (height * 0.30), 300, 50)
+            (width/3), (height/3) + (height * 0.45), 300, 50)
         QUIT_TEXT = font.render("Sair", True, white)
         QUIT_TEXT_RECT = QUIT_TEXT.get_rect(center=QUIT_BUTTON.center)
 
         pygame.draw.rect(screen, secondary_pink, PLAY_BUTTON)
         pygame.draw.rect(screen, secondary_pink, COMPUTER_PLAY_BUTTON)
         pygame.draw.rect(screen, secondary_pink, QUIT_BUTTON)
+        pygame.draw.rect(screen, secondary_pink, PLUS_BUTTON)
 
         screen.blit(MENU_TEXT, MENU_RECT)
         screen.blit(PLAY_TEXT, PLAY_TEXT_RECT)
         screen.blit(COMPUTER_PLAY_TEXT, COMPUTER_PLAY_TEXT_RECT)
+        screen.blit(PLUS_TEXT, PLUS_TEXT_RECT)
         screen.blit(QUIT_TEXT, QUIT_TEXT_RECT)
         screen.blit(FOOTER_TEXT, FOOTER_RECT)
 
@@ -364,6 +370,8 @@ def main_menu():
                 if QUIT_BUTTON.collidepoint(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
+                if PLUS_BUTTON.collidepoint(MENU_MOUSE_POS):
+                    # funcao do plus
 
         pygame.display.update()
 
