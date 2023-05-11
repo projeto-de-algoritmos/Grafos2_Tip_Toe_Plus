@@ -68,7 +68,7 @@ class Graph:
                     heapq.heappush(heap, (dist[neighbor], neighbor))
 
         path = []
-        current_vertex = end
+        
         while current_vertex != start:
             path.insert(0, current_vertex)
             current_vertex = pred[current_vertex]

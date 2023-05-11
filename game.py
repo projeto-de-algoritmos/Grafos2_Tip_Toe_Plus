@@ -43,8 +43,9 @@ hole = 7
 deactivatedHole = 0
 solidSquare = 1
 waterSquare = 3
-grassSquare = 2
+sandSquare = 2
 trailSquare = 4
+fireSquare = 5
 
 
 pygame.init()
@@ -74,8 +75,8 @@ def createBoard(row, column):
             elif i == (row-1):
                 board[i][j] = startingLine
 
-    # cria buracos
-    sort = [deactivatedHole, grassSquare, waterSquare]
+    # cria obstaculos
+    sort = [deactivatedHole, sandSquare, waterSquare, fireSquare]
     for i in range(4,rows-2):
         for j in range(0,columns-1):
             if board[i][j] == solidSquare:
@@ -94,8 +95,8 @@ def drawSquare(row, column, color):
     pygame.draw.rect(screen, color, rect)
 
 
-def centralizeImage():
-    return (xPlayer * (square_size + square_margin) + square_margin + square_size/2, yPlayer * (square_size + square_margin) + square_margin + square_size/2)
+def centralizeImage(x,y):
+    return (x * (square_size + square_margin) + square_margin + square_size/2, y * (square_size + square_margin) + square_margin + square_size/2)
 
 def startPosition():
     return (random.randint(0,columns-1), rows-1)
@@ -110,19 +111,27 @@ def drawBoard(board):
                 drawSquare(row, column, orange)
             elif board[row][column] == playerSquare:
                 drawSquare(row, column, yellow)
-                player_loc.center = centralizeImage()
+                player_loc.center = centralizeImage(xPlayer,yPlayer)
             elif board[row][column] == trailSquare:
                 drawSquare(row, column, lightOrange)
             elif board[row][column] == finishBlue:
                 drawSquare(row, column, blue)
             elif board[row][column] == startingLine:
                 drawSquare(row, column, pink)
-            elif board[row][column] == hole:   # se for 7, indica que o buraco foi pisado
+            elif board[row][column] == hole:
                 drawSquare(row, column, black)
-            elif board[row][column] == grassSquare:
-                drawSquare(row, column, green)
+            elif board[row][column] == sandSquare:
+                #drawSquare(row, column, green)
+                sand_loc.center = centralizeImage(column, row)
+                screen.blit(sandIcon, sand_loc)
             elif board[row][column] == waterSquare:  
-                drawSquare(row, column, ciano)
+                #drawSquare(row, column, ciano)
+                water_loc.center = centralizeImage(column,row)
+                screen.blit(waterIcon, water_loc)
+            elif board[row][column] == fireSquare:
+                drawSquare(row, column, red)
+                fire_loc.center = centralizeImage(column,row)
+                screen.blit(fireIcon, fire_loc)
 
 # define movimento do jogador
 def movePlayer(direction, mode):
@@ -154,16 +163,25 @@ def recordMoviments():
         board[yPlayer][xPlayer] = 2
         cleanTrail()
         trail.append([xPlayer, yPlayer, trailSquare])
-        player_loc.center = centralizeImage()
+        player_loc.center = centralizeImage(xPlayer,yPlayer)
         win()
 
     else:
         markTrail()
         trail.append([xPlayer, yPlayer, board[yPlayer][xPlayer]])
-        if board[yPlayer][xPlayer] == grassSquare:
+        if board[yPlayer][xPlayer] == sandSquare:
+            pygame.event.set_blocked(pygame.KEYDOWN)
             time.sleep(1)
+            pygame.event.set_allowed(pygame.KEYDOWN)
         elif board[yPlayer][xPlayer] == waterSquare:
+            pygame.event.set_blocked(pygame.KEYDOWN)
             time.sleep(2)
+            pygame.event.set_allowed(pygame.KEYDOWN)
+        elif board[yPlayer][xPlayer] == fireSquare:
+            pygame.event.set_blocked(pygame.KEYDOWN)
+            time.sleep(2.5)
+            pygame.event.set_allowed(pygame.KEYDOWN)
+            
         board[yPlayer][xPlayer] = playerSquare
         return True
 
@@ -250,7 +268,22 @@ board[yPlayer][xPlayer] = playerSquare
 playerIcon = pygame.image.load('jujuba.png')
 playerIcon = pygame.transform.scale(playerIcon, (square_size, square_size))
 player_loc = playerIcon.get_rect()
-player_loc.center = centralizeImage()
+player_loc.center = centralizeImage(xPlayer,yPlayer)
+
+#carrega imagem fogo
+fireIcon = pygame.image.load('fogo.jpg')
+fireIcon = pygame.transform.scale(fireIcon, (square_size, square_size))
+fire_loc = fireIcon.get_rect()
+
+#carrega imagem agua
+waterIcon = pygame.image.load('agua.jpg')
+waterIcon = pygame.transform.scale(waterIcon, (square_size, square_size))
+water_loc = waterIcon.get_rect()
+
+#carrega imagem areia
+sandIcon = pygame.image.load('areia.jpg')
+sandIcon = pygame.transform.scale(sandIcon, (square_size, square_size))
+sand_loc = sandIcon.get_rect()
 
 # Definir as fontes
 font = pygame.font.Font(None, 36)
