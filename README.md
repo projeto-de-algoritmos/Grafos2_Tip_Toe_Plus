@@ -34,5 +34,5 @@ Adicione 3 ou mais screenshots do projeto em funcionamento.
 Necessário instalar o pygame
 
 ## Uso 
-Para rodar o projeto basta executar o arquivo main.py
+Para rodar o projeto basta executar ```python3 game.py```
 
