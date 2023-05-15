@@ -5,6 +5,7 @@ import random
 import time
 from threading import Timer
 import grafo as gf
+import GrafoDic as gd
 
 # Configurações do tabuleiro
 square_size = 50
@@ -18,6 +19,9 @@ size = width, height = ((square_size + square_margin)
 # grafo para apartir do tabuleiro
 graph = gf.Graph(rows*columns)
 end = [int(i) for i in range(0, 14)]
+
+#grafo com dicionario de adjacencia e pesos nas arestas
+graphDic = gd.Graph(columns*rows)
 
 # cores
 black = (0, 0, 0)
@@ -83,7 +87,6 @@ def createBoard(row, column):
                 if random.randint(0,30) <10:
                     board[i][j] = random.choice(sort)
     
-    print(board)
 
     return board
 
@@ -152,6 +155,7 @@ def recordMoviments():
         board[yPlayer][xPlayer] = hole
         index = graph.coordinatesToIndex([xPlayer, yPlayer], board)
         graph.removeBlock(index)
+        graphDic.removeBlock(index)
         xPlayer, yPlayer = startPosition()
         board[yPlayer][xPlayer] = playerSquare
         cleanTrail()
@@ -250,15 +254,22 @@ def playComputer():
     global xPlayer, yPlayer, board
     start = graph.coordinatesToIndex([xPlayer,yPlayer],board)
     path = graph.dijkstra(start, 15)
-    print(path)
     graph.clearVisited()
     path = graph.pathToMoves(path, board)
 
     return path
 
+#define movimento do computador plus
+def playComputerPlus():
+    global xPlayer, yPlayer, board
+    start = graphDic.coordinatesToIndex([xPlayer,yPlayer],board)
+
+    path = graphDic.getMoves(start, random.randint(15, 29), board)
+    return path
 
 board = createBoard(rows, columns)
 graph.matrixToGraph(board)
+graphDic.matrixToGraph(board)
 player = xPlayer, yPlayer = startPosition()
 trail = []
 trail.append([xPlayer, yPlayer, board[yPlayer][xPlayer]])
@@ -312,6 +323,28 @@ def computer_play():
         screen.blit(playerIcon, player_loc)
         pygame.display.update()
         time.sleep(0.5)
+
+def computer_play_plus():
+    path = playComputerPlus()
+    while True:
+        
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        if path != None and len(path) > 0:
+            x, y = path.pop()
+            if movePlayer([x, y], 'computer'):
+                path = playComputerPlus()
+
+        screen.fill(white)
+        drawBoard(board)
+        screen.blit(playerIcon, player_loc)
+        pygame.display.update()
+        time.sleep(0.5)
+
 
 
 def play():
@@ -405,6 +438,7 @@ def main_menu():
                     sys.exit()
                 if PLUS_BUTTON.collidepoint(MENU_MOUSE_POS):
                     # funcao do plus
+                    computer_play_plus()
 
         pygame.display.update()
 

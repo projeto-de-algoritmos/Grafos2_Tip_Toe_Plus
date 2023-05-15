@@ -76,7 +76,6 @@ class Graph:
 
         return path
     
-    
     # transforma caminho em lista de coordenadas
     def pathToCoordinates(self, path, matrix):
         coordinates = []
