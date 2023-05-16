@@ -25,9 +25,14 @@ As regras gerais do jogo são:
 - Ao cair em um buraco, o jogador volta para o início e o buraco fica marcado até o final da partida.
 - O jogo termina quando o jogador chega na linha de chegada.
   
+## Vídeo de apresentação
+https://youtu.be/YZrguk1O2tU
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+![image](https://github.com/projeto-de-algoritmos/Grafos2_Tip_Toe_Plus/assets/57496213/5b61d2fd-5732-4875-addd-154f9f43a6eb)
+![image](https://github.com/projeto-de-algoritmos/Grafos2_Tip_Toe_Plus/assets/57496213/42dbfdb5-fa4a-48e4-a4aa-3368b59e22c9)
+![image](https://github.com/projeto-de-algoritmos/Grafos2_Tip_Toe_Plus/assets/57496213/c4d6fd1f-903d-44ff-8419-ba225e7e6d0f)
+
 
 ## Instalação 
 **Linguagem**: Python3<br>
